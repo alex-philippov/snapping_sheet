@@ -159,7 +159,11 @@ class SnappingSheet extends StatefulWidget {
 
 class _SnappingSheetState extends State<SnappingSheet>
     with TickerProviderStateMixin {
-  double _currentPositionPrivate = 0;
+  late double _currentPositionPrivate =
+      _initSnappingPosition.getPositionInPixels(
+    sheetSize,
+    widget.grabbingHeight,
+  );
   BoxConstraints? _latestConstraints;
   late SnappingPosition _lastSnappingPosition;
   late AnimationController _animationController;
@@ -186,14 +190,14 @@ class _SnappingSheetState extends State<SnappingSheet>
       }
     });
 
-    Future.delayed(Duration(seconds: 0)).then((value) {
-      setState(() {
-        _currentPosition = _initSnappingPosition.getPositionInPixels(
-          sheetSize,
-          widget.grabbingHeight,
-        );
-      });
-    });
+    // Future.delayed(Duration(seconds: 0)).then((value) {
+    //   setState(() {
+    //     _currentPosition = _initSnappingPosition.getPositionInPixels(
+    //       sheetSize,
+    //       widget.grabbingHeight,
+    //     );
+    //   });
+    // });
 
     if (widget.controller != null) {
       widget.controller!._attachState(this);
