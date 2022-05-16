@@ -58,7 +58,7 @@ class _ScrollControllerOverrideState extends State<ScrollControllerOverride> {
   }
 
   void _setLockPosition() {
-    if (_currentDragDirection == DragDirection.up &&
+    if (widget.scrollController.hasClients && _currentDragDirection == DragDirection.up &&
             widget.sheetLocation == SheetLocation.below ||
         _currentDragDirection == DragDirection.down &&
             widget.sheetLocation == SheetLocation.above) {
@@ -69,6 +69,7 @@ class _ScrollControllerOverrideState extends State<ScrollControllerOverride> {
   }
 
   bool get _allowScrolling {
+    if (!widget.scrollController.hasClients) return false;
     if (widget.sheetLocation == SheetLocation.below) {
       if (_currentDragDirection == DragDirection.up) {
         if (widget.currentPosition >= _biggestSnapPos)
@@ -130,7 +131,7 @@ class _ScrollControllerOverrideState extends State<ScrollControllerOverride> {
         _overrideScroll(dragValue);
       },
       onPointerUp: (_) {
-        if (!_allowScrolling)
+        if (!_allowScrolling && widget.scrollController.hasClients)
           widget.scrollController.jumpTo(_currentLockPosition);
         widget.dragEnd();
       },
